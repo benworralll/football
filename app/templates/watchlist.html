@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        {% include "header.html" %}
+    </header>
+    <main>
+        <h1>watchlist</h1>
+        <div class="watchlist-items">
+            {% if watchlist_items %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Team</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in watchlist_items %}
+                            <tr>
+                                <td>{{ item.team.name }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>You have no teams in your watchlist.</p>
+            {% endif %}
+        </div>
+    </main>
+    <footer>
+        {% include "footer.html" %}
+    </footer>
+</body>
+</html>

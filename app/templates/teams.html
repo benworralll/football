@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Teams</h1>
+<div class="Teams">
+    {% for team in teams %}
+        <div class="team-item">
+            <h2>{{ team.name }}</h2>
+            <p>{{ team.description }}</p>
+            <form action="{{ url_for('add_to_watchlist') }}" method="post">
+                <select name="base_id" id="base">
+                </select>
+                <input type="hidden" name="team_id" value="{{ team.id }}">
+                <input type="submit" value="Add to Watchlist">
+            </form>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

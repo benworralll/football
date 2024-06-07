@@ -6,7 +6,7 @@ from app.models import User, Ground, Competition, Team, Team_Ground, WatchlistIt
 
 #  instalise Flask Login 
 login_manager = LoginManager(app)
-login_manager.login.view = 'login'
+login_manager.login_view = 'login'
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -16,9 +16,9 @@ def load_user(user_id):
 def home():
     return render_template('home.html')
 
-@app.route('/teams', meothods=['GET'])
+@app.route('/teams', methods=['GET'])
 def menu():
-    teams = Team.query.all
+    teams = Team.query.all()
     return render_template('/teams.html', teams = teams)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -38,7 +38,7 @@ def login():
 @app.route('/add_to_watchlist', methods=['POST'])
 @login_required
 def add_to_watchlist():
-    team_id = request.form.get('pizza_id')
+    team_id = request.form.get('team_id')
 
     team = Team.query.get(team_id)
     
@@ -56,7 +56,7 @@ def add_to_watchlist():
     if watchlist_item:
         watchlist_item.quantity += quantity
     else:
-        watchlist_item = WatchlistItem(watchlist_id=watchlist.id, taem_id=team_id)
+        watchlist_item = WatchlistItem(watchlist_id=watchlist.id, team_id=team_id)
         db.session.add(cart_item)
     
     db.session.commit()

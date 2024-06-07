@@ -1,5 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from sqlalchemy.orm import relationship
+
 
 db = SQLAlchemy()
 
@@ -11,11 +13,11 @@ class User(UserMixin, db.Model):
     watchlist = db.relationship('Watchlist', backref='user', uselist=False)
 
 class Team(db.Model):
-    __tablename__ = 'Team'
+    __tablename__ = 'team'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(500), nullable=False)
-    formed = db.Column(db.String(100),  nullable=False)
+    formed = db.Column(db.String(100), nullable=False)
     size = db.Column(db.Integer)
 
 class Competition(db.Model):
@@ -42,6 +44,7 @@ class Watchlist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     items = db.relationship('WatchlistItem', backref='watchlist', lazy=True)
+
 
 class WatchlistItem(db.Model):
     __tablename__ = 'watchlist_items'

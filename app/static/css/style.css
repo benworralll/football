@@ -1,0 +1,100 @@
+/* GLOBAL STYLES */
+body {
+    background-image: url("/static/images/football.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 1920px 1080px;
+  }
+  
+  h1 {
+    font-family: 'Courier New', Courier, monospace;
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  h2 {
+    margin-left: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #ffffff;
+    text-align: left;
+  }
+  
+  p {
+    margin-left: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #ffffff;
+    text-align: left;
+  }
+  
+  /* Navbar */
+  .navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    margin: 20px 0;
+  }
+  
+  /* Navbar links */
+  .navbar a {
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+  }
+  
+  /* Navbar link hover effect */
+  .navbar a:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Active navbar link */
+  .navbar a.active {
+    background-color: #ffc72c;
+    color: #fff;
+  }
+  
+  
+  /* cart.css */
+  
+  /* Example styles */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+  }
+  
+  main {
+    margin: 20px;
+  }
+  
+  .cart-items {
+    margin-top: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    color: #fff;
+  }
+  
+  form {
+    margin-top: 10px;
+  }
+  
