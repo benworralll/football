@@ -21,6 +21,7 @@ def menu():
     teams = Team.query.all()
     return render_template('/teams.html', teams = teams)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
