@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <header>
+        {% include "header.html" %}
+    </header>
+    <nav>
+        {% include "nav.html" %}
+    </nav>
     <div class="container">
         <h1>Register</h1>
         <form action="{{ url_for('register') }}" method="post">
