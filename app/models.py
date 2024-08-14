@@ -43,12 +43,11 @@ class Watchlist(db.Model):
     __tablename__ = 'watchlist'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    items = db.relationship('WatchlistItem', backref='watchlist', lazy=True)
-
+    items = db.relationship('WatchlistItem', backref='watchlist', lazy=True)  # Define relationship
 
 class WatchlistItem(db.Model):
     __tablename__ = 'watchlist_items'
     id = db.Column(db.Integer, primary_key=True)
-    watchlist_id = db.Column(db.Integer, db.ForeignKey('watchlist.id'), nullable=False)
-    team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
-    team = db.relationship('Team', backref='watchlist_items')
+    watchlist_id = db.Column(db.Integer, db.ForeignKey('watchlist.id'), nullable=False)  # Foreign key linking to Watchlist
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)  # Foreign key linking to Team
+    team = db.relationship('Team', backref='watchlist_items') 
