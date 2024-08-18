@@ -1,9 +1,27 @@
+<!-- grounds.html -->
 {% extends "layout.html" %}
+
 {% block content %}
-<h1>Stadium</h1>
+<h1>Grounds</h1>
 
-<h2>{{ ground.name }}</h2>
-<p>{{ ground.description }}</p>
+<form method="get" action="{{ url_for('grounds') }}">
+    <label for="sort_by">Sort by:</label>
+    <select name="sort_by" id="sort_by">
+        <option value="name" {% if request.args.get('sort_by') == 'name' %}selected{% endif %}>Name</option>
+        <option value="capacity" {% if request.args.get('sort_by') == 'capacity' %}selected{% endif %}>Capacity</option>
+    </select>
+    <button type="submit">Sort</button>
+</form>
 
-{% endfor %}
+<ul>
+    {% for ground in grounds %}
+    <li>
+        {{ ground.name }} - {{ ground.location }} - Capacity: {{ ground.capacity }}
+        <form method="POST" action="{{ url_for('add_to_watchlist') }}">
+            <input type="hidden" name="ground_id" value="{{ ground.id }}">
+            <button type="submit">Add to Watchlist</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock %}

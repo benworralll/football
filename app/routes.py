@@ -61,11 +61,11 @@ def register():
 @login_required
 def add_to_watchlist():
     team_id = request.form.get('team_id')
+    ground_id = request.form.get('ground_id')
 
-    # Check if the team exists
-    team = Team.query.get(team_id)
-    if not team:
-        flash('Invalid team selection', 'error')
+    # Validate inputs
+    if not team_id and not ground_id:
+        flash('Invalid selection', 'error')
         return redirect(url_for('menu'))
     
     # Get or create the user's watchlist
@@ -73,17 +73,26 @@ def add_to_watchlist():
     if not watchlist:
         watchlist = Watchlist(user_id=current_user.id)
         db.session.add(watchlist)
-        db.session.commit()  # Commit to get the watchlist ID
+        db.session.commit()
 
-    # Check if the team is already in the watchlist
-    watchlist_item = WatchlistItem.query.filter_by(watchlist_id=watchlist.id, team_id=team_id).first()
+    # Check if the team or ground is already in the watchlist
+    watchlist_item = WatchlistItem.query.filter_by(
+        watchlist_id=watchlist.id,
+        team_id=team_id,
+        ground_id=ground_id
+    ).first()
+
     if watchlist_item:
-        flash('Team is already in your watchlist!', 'info')
+        flash('Item is already in your watchlist!', 'info')
     else:
-        watchlist_item = WatchlistItem(watchlist_id=watchlist.id, team_id=team_id)
+        watchlist_item = WatchlistItem(
+            watchlist_id=watchlist.id,
+            team_id=team_id if team_id else None,
+            ground_id=ground_id if ground_id else None
+        )
         db.session.add(watchlist_item)
-        flash('Team added to Watchlist successfully!', 'success')
-    
+        flash('Item added to Watchlist successfully!', 'success')
+
     db.session.commit()
     return redirect(url_for('menu'))
 
@@ -93,6 +102,43 @@ def view_watchlist():
     watchlist = current_user.watchlist
     watchlist_items = WatchlistItem.query.filter_by(watchlist_id=watchlist.id).all() if watchlist else []
     return render_template('watchlist.html', watchlist_items=watchlist_items)
+
+@app.route('/remove_from_watchlist/<int:item_id>', methods=['POST'])
+@login_required
+def remove_from_watchlist(item_id):
+    watchlist_item = WatchlistItem.query.get(item_id)
+    
+    if not watchlist_item:
+        flash('Item not found.', 'error')
+        return redirect(url_for('view_watchlist'))
+    
+    print(f"Item found: {watchlist_item}")  # Debug line
+    
+    if watchlist_item.watchlist.user_id != current_user.id:
+        flash('Unauthorized action.', 'error')
+        return redirect(url_for('view_watchlist'))
+    
+    try:
+        db.session.delete(watchlist_item)
+        db.session.commit()
+        flash('Item removed from watchlist.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error removing item: {str(e)}', 'error')
+    
+    return redirect(url_for('view_watchlist'))
+@app.route('/grounds', methods=['GET'])
+def grounds():
+    sort_by = request.args.get('sort_by', 'name')  # Default sort by name
+    if sort_by == 'name':
+        grounds = Ground.query.order_by(Ground.name).all()
+    elif sort_by == 'capacity':
+        grounds = Ground.query.order_by(Ground.capacity.desc()).all()
+    else:
+        grounds = Ground.query.order_by(Ground.name).all()
+
+    return render_template('grounds.html', grounds=grounds)
+
 
 @app.route('/logout')
 @login_required

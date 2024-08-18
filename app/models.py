@@ -28,11 +28,12 @@ class Competition(db.Model):
     prize = db.Column(db.String(100), nullable=False)
 
 class Ground(db.Model):
-    __tablename__ = 'Ground'
+    __tablename__ = 'ground' 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(100), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
+
 
 class Team_Ground(db.Model):
     __tablename__ = 'Team_Ground'
@@ -48,6 +49,11 @@ class Watchlist(db.Model):
 class WatchlistItem(db.Model):
     __tablename__ = 'watchlist_items'
     id = db.Column(db.Integer, primary_key=True)
-    watchlist_id = db.Column(db.Integer, db.ForeignKey('watchlist.id'), nullable=False)  # Foreign key linking to Watchlist
-    team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)  # Foreign key linking to Team
-    team = db.relationship('Team', backref='watchlist_items') 
+    watchlist_id = db.Column(db.Integer, db.ForeignKey('watchlist.id'), nullable=False)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=True)
+    ground_id = db.Column(db.Integer, db.ForeignKey('ground.id'), nullable=True)  # Correct ForeignKey
+    
+    team = db.relationship('Team', backref='watchlist_items')
+    ground = db.relationship('Ground', backref='watchlist_items')  # Correct relationship
+
+    
