@@ -3,5 +3,30 @@
 <h1> Home page </h1>
 <h2> This is the home page for football website </h2>
 <p> Tbhis is a football website, this website will cover all information about football clubs in christhcurch New Zealand. </p>
+<div class="featured-teams">
+    <h2>Featured Teams</h2>
+    <div class="team-container">
+        {% for team in featured_teams %}
+        <div class="team-card">
+            <!-- Display the team logo -->
+            {% if team.logo %}
+            <img src="{{ url_for('static', filename='images/' + team.logo) }}" alt="{{ team.name }} Logo">
+            {% else %}
+            <img src="{{ url_for('static', filename='images/default_team_logo.png') }}" alt="Default Logo">
+            {% endif %}
+            
+            <!-- Team information -->
+            <h3>{{ team.name }}</h3>
+            <p>{{ team.description }}</p>
+            
+            <!-- Add to watchlist button -->
+            <form action="{{ url_for('add_to_watchlist') }}" method="POST">
+                <input type="hidden" name="team_id" value="{{ team.id }}">
+                <button type="submit" class="btn">Add to Watchlist</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Where is your team playing this weekend?</h1>
+<h2>Find out where your team is playing this weekend. </h2>
+<div class="team-ground-list">
+    {% for team in teams %}
+        <div class="team-item">
+            <h3>{{ team.name }}</h3>
+            <ul>
+                {% for ground in team.grounds %}
+                    <li>{{ ground.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

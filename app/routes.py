@@ -146,6 +146,11 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+@app.route('/team_ground')
+def team_ground():
+    teams = Team.query.all()  # Fetch all teams
+    return render_template('team_ground.html', teams=teams)
+
 if __name__ == '__main__':
     app.run(debug=True)
 

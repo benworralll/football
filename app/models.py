@@ -5,6 +5,12 @@ from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
+# Association table
+team_ground = db.Table('team_ground',
+    db.Column('tid', db.Integer, db.ForeignKey('team.id'), primary_key=True),
+    db.Column('gid', db.Integer, db.ForeignKey('ground.id'), primary_key=True)
+)
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -19,6 +25,9 @@ class Team(db.Model):
     description = db.Column(db.String(500), nullable=False)
     formed = db.Column(db.String(100), nullable=False)
     size = db.Column(db.Integer)
+    logo = db.Column(db.String(255))
+
+    grounds = db.relationship('Ground', secondary=team_ground, back_populates='teams')
 
 class Competition(db.Model):
     __tablename__ = 'Competition'
@@ -33,8 +42,9 @@ class Ground(db.Model):
     name = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(100), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
+    image = db.Column(db.String(255))
 
-
+    teams = db.relationship('Team', secondary=team_ground, back_populates='grounds')
 class Team_Ground(db.Model):
     __tablename__ = 'Team_Ground'
     tid = db.Column(db.Integer, db.ForeignKey('team.id'), primary_key=True)
